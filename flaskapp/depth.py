@@ -10,6 +10,7 @@ app = Flask(__name__)
 midas = torch.hub.load('intel-isl/MiDaS', 'DPT_Hybrid')
 midas.to('cpu')
 midas.eval()
+#HIIIIII
 
 # Input transformation pipeline
 transforms = torch.hub.load('intel-isl/MiDaS', 'transforms')
