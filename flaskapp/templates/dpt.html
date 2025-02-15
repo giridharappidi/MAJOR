@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Depth Map Estimation</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <button id="start_button">Start Depth Map</button>
+    <div id="depth_map_container" style="display: none;">
+        <img id="depth_map" src="#" alt="Depth Map">
+    </div>
+
+    <script>
+        document.getElementById('start_button').addEventListener('click', function() {
+            document.getElementById('depth_map_container').style.display = 'block';
+            document.getElementById('depth_map').src = "{{ url_for('depth_map') }}";
+        });
+    </script>
+</body>
+</html>

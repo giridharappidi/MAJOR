@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object Detection</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Object Detection with Distance Estimation</h1>
+        <div class="video-container">
+            <img id="video_feed" src="#" width="640" height="480">
+            <p id="results"></p>
+        </div>
+        <div class="button-container">
+            <button id="start_button">Start Webcam</button>
+            <button id="stop_button" style="display: none;">Stop Webcam</button>
+            <button id="show_results_button">Show Results</button>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            var video = document.getElementById('video_feed');
+            var startButton = document.getElementById('start_button');
+            var stopButton = document.getElementById('stop_button');
+            var showResultsButton = document.getElementById('show_results_button');
+            var resultsDisplay = document.getElementById('results');
+
+            startButton.onclick = function(){
+                $.getJSON('/toggle_webcam', function(data){
+                    if (data['status'] === 'success') {
+                        if (data['show_webcam']) {
+                            video.src = "{{ url_for('video_feed') }}";
+                            video.style.display = "block";
+                            startButton.style.display = "none";
+                            stopButton.style.display = "block";
+                            resultsDisplay.innerHTML = ""; // Clear results display
+                        }
+                    }
+                });
+            };
+
+            stopButton.onclick = function(){
+                $.getJSON('/toggle_webcam', function(data){
+                    if (data['status'] === 'success') {
+                        if (!data['show_webcam']) {
+                            video.src = "#";
+                            video.style.display = "none";
+                            startButton.style.display = "block";
+                            stopButton.style.display = "none";
+                            resultsDisplay.innerHTML = ""; // Clear results display
+                        }
+                    }
+                });
+            };
+
+            showResultsButton.onclick = function(){
+                $.getJSON('/show_results', function(data){
+                    var results = data;
+                    resultsDisplay.innerHTML = results.join('<br>');
+                });
+            };
+        });
+    </script>
+</body>
+</html>
